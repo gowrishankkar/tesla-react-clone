@@ -1,8 +1,12 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
-import MenuIcon from '@material-ui/icons/Menu';
+import MenuIcon from "@material-ui/icons/Menu";
+import CloseIcon from "@material-ui/icons/Close";
+import Fade from "react-reveal/Fade";
 
 function Header() {
+  const [burgerStatus, setBurgerStatus] = useState(false);
+
   return (
     <Container>
       <a>
@@ -26,20 +30,39 @@ function Header() {
       <RightMenu>
         <a href="#">Shop</a>
         <a href="#">Tesla Account</a>
-        <CustomMenu/>
+        <CustomMenu onClick={() => setBurgerStatus(true)} />
       </RightMenu>
-
-
-      <BurgerNav>
-          <li><a href="#">Existing Inventory</a></li>
-          <li><a href="#">Used Inventory</a></li>
-          <li><a href="#">Trade-In</a></li>
-          <li><a href="#">Test Drive</a></li>
-          <li><a href="#">Cybertruck</a></li>
-          <li><a href="#">Roadster</a></li>
-          <li><a href="#">Semi</a></li>
-          <li><a href="#">Chargin</a></li>
-      </BurgerNav>
+      <Fade right>
+        <BurgerNav show={burgerStatus}>
+          <CloseWrapper>
+            <CustomClose onClick={() => setBurgerStatus(false)} />
+          </CloseWrapper>
+          <li>
+            <a href="#">Existing Inventory</a>
+          </li>
+          <li>
+            <a href="#">Used Inventory</a>
+          </li>
+          <li>
+            <a href="#">Trade-In</a>
+          </li>
+          <li>
+            <a href="#">Test Drive</a>
+          </li>
+          <li>
+            <a href="#">Cybertruck</a>
+          </li>
+          <li>
+            <a href="#">Roadster</a>
+          </li>
+          <li>
+            <a href="#">Semi</a>
+          </li>
+          <li>
+            <a href="#">Chargin</a>
+          </li>
+        </BurgerNav>
+      </Fade>
     </Container>
   );
 }
@@ -54,7 +77,7 @@ const Container = styled.div`
   right: 0;
   left: 0;
   justify-content: space-between;
-
+  z-index: 1;
   a {
     padding: 15px;
   }
@@ -72,14 +95,14 @@ const Menu = styled.div`
     flex-wrap: no-wrap;
   }
 
-  @media(max-width: 768){
-      display:none;
+  @media (max-width: 768) {
+    display: none;
   }
 `;
 
 const RightMenu = styled.div`
-    display: flex;
-    align-items: center;
+  display: flex;
+  align-items: center;
 
   padding: 15px;
   a {
@@ -90,19 +113,40 @@ const RightMenu = styled.div`
   }
 `;
 
-const CustomMenu = styled(MenuIcon)`
-`
+const CustomMenu = styled(MenuIcon)``;
 
+const CustomClose = styled(CloseIcon)`
+  cursor: pointer;
+`;
 
 const BurgerNav = styled.div`
+  position: fixed;
+  background: white;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  width: 300px;
+  z-index: 16;
+  list-style: none;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  text-align: start;
+  transform: ${(props) => (props.show ? "translateX(0)" : "translateX(100%)")};
+  transition: transform 0.2s ;
 
-    position: fixed;
-    background: white;
-    top: 0;
-    bottom: 0;
-    right:0;
-    width: 300px;
-    z-index: 100;
+  li {
+    padding: 15px 0;
+    border-bottom: 1px solid black;
 
-  
+    a {
+      font-weight: 600;
+    }
+  }
+`;
+
+const CloseWrapper = styled.div`
+  display: flex;
+  justify-content: flex-end;
 `;
